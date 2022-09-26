@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/code', (req, res) => {
-    console.log('req.body: ', req.body);
+    // console.log('req.body: ', req.body);
     // console.log('snippet: ', typeof snippet.add);
     const moduleToExport = req.body['code-package']['snippet']['import']
     console.log('moduleToExport: ', moduleToExport);
@@ -26,6 +26,7 @@ app.post('/code', (req, res) => {
     const snippet = require('./snippet')
     const return1 = (eval(`snippet.${req.body['code-package']['snippet']['to-execute-1']}`))
     const return2 = (eval(`snippet.${req.body['code-package']['snippet']['to-execute-2']}`))
+    console.log('returned values: ', [return1, return2])
     res.send([return1, return2])
 
 })
