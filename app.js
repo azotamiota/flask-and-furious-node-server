@@ -18,16 +18,18 @@ app.post('/code', (req, res) => {
     // console.log('snippet: ', typeof snippet.add);
     const moduleToExport = req.body['code-package']['snippet']['import']
     console.log('moduleToExport: ', moduleToExport);
-    fs.writeFileSync('snippet.js', `${req.body['code-package']['snippet']['body']}\n\nmodule.exports = {${moduleToExport}}`, (err, data) => {
-            if (err) throw err;
-            // console.log(eval('snippet.multiply(2,3)'))
-        }
-    )
-    const snippet = require('./snippet')
+    // fs.writeFileSync('snippet.js', `${req.body['code-package']['snippet']['body']}\n\nmodule.exports = {${moduleToExport}}`, (err, data) => {
+    //         if (err) throw err;
+    //         // console.log(eval('snippet.multiply(2,3)'))
+    //     }
+    // )
+    // const snippet = require('./snippet')
     console.log('snippet path: ', path.resolve('./snippet.js'))
-    const return1 = (eval(`snippet.${req.body['code-package']['snippet']['to-execute-1']}`))
-    const return2 = (eval(`snippet.${req.body['code-package']['snippet']['to-execute-2']}`))
-    console.log('returned values: ', [return1, return2])
+    const return1 = eval(`${req.body['code-package']['snippet']['body']}\n\n
+    ${req.body['code-package']['snippet']['to-execute-1']}`)
+    const return2 = eval(`${req.body['code-package']['snippet']['body']}\n\n
+    ${req.body['code-package']['snippet']['to-execute-2']}`)
+    console.log('return: ', return1, return2)
     res.send([return1, return2])
 
 })
