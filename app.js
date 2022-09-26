@@ -1,5 +1,5 @@
 const fs = require('fs')
-// const path = require('path')
+const path = require('path')
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -18,12 +18,13 @@ app.post('/code', (req, res) => {
     // console.log('snippet: ', typeof snippet.add);
     const moduleToExport = req.body['code-package']['snippet']['import']
     console.log('moduleToExport: ', moduleToExport);
-    fs.writeFileSync(`${__dirname}/snippet.js`, `${req.body['code-package']['snippet']['body']}\n\nmodule.exports = {${moduleToExport}}`, (err, data) => {
+    fs.writeFileSync('snippet.js', `${req.body['code-package']['snippet']['body']}\n\nmodule.exports = {${moduleToExport}}`, (err, data) => {
             if (err) throw err;
             // console.log(eval('snippet.multiply(2,3)'))
         }
     )
     const snippet = require('./snippet')
+    console.log('snippet path: ', path.resolve('./snippet.js'))
     const return1 = (eval(`snippet.${req.body['code-package']['snippet']['to-execute-1']}`))
     const return2 = (eval(`snippet.${req.body['code-package']['snippet']['to-execute-2']}`))
     console.log('returned values: ', [return1, return2])
