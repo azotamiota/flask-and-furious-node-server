@@ -14,16 +14,9 @@ app.get('/', (req, res) => {
 })
 
 app.post('/code', (req, res) => {
-    // console.log('req.body: ', req.body);
-    // console.log('snippet: ', typeof snippet.add);
     const moduleToExport = req.body['code-package']['snippet']['import']
     console.log('moduleToExport: ', moduleToExport);
-    // fs.writeFileSync('snippet.js', `${req.body['code-package']['snippet']['body']}\n\nmodule.exports = {${moduleToExport}}`, (err, data) => {
-    //         if (err) throw err;
-    //         // console.log(eval('snippet.multiply(2,3)'))
-    //     }
-    // )
-    // const snippet = require('./snippet')
+  
     console.log('snippet path: ', path.resolve('./snippet.js'))
     const return1 = eval(`${req.body['code-package']['snippet']['body']}\n\n
     ${req.body['code-package']['snippet']['to-execute-1']}`)
