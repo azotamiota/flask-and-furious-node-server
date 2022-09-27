@@ -15,15 +15,18 @@ app.get('/', (req, res) => {
 
 app.post('/code', (req, res) => {
     const moduleToExport = req.body['code-package']['snippet']['import']
-    console.log('moduleToExport: ', moduleToExport);
-  
-    console.log('snippet path: ', path.resolve('./snippet.js'))
-    const return1 = eval(`${req.body['code-package']['snippet']['body']}\n\n
-    ${req.body['code-package']['snippet']['to-execute-1']}`)
-    const return2 = eval(`${req.body['code-package']['snippet']['body']}\n\n
-    ${req.body['code-package']['snippet']['to-execute-2']}`)
-    console.log('return: ', return1, return2)
-    res.send([return1, return2])
+    const functionBody = req.body['code-package']['snippet']['body']
+    const testFunction1 = req.body['code-package']['snippet']['to-execute-1']
+    const testFunction2 = req.body['code-package']['snippet']['to-execute-2']
+    try {
+        const return1 = eval(`${functionBody}\n\n${testFunction1}`)
+        const return2 = eval(`${functionBody}\n\n${testFunction2}`)
+        console.log('return: ', return1, return2)
+        res.send([return1, return2])
+    } catch (error) {
+        console.log('error: ', error.message)
+        res.json({error: error.message})
+    }
 
 })
 
